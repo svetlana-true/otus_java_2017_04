@@ -45,5 +45,6 @@ Thumbs.db
 *.iml
 *.ipr
 .idea/
+target/
 
 
