@@ -44,8 +44,6 @@ Thumbs.db
 .metadata
 *.iml
 *.ipr
-#it is not recommended to ignore entire .idea directory. Instead two lines should be added#
-/.idea/workspace.xml
-/.idea/tasks.xml
+.idea/
 
 
