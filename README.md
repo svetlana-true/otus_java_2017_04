@@ -1,2 +1,4 @@
 # otus_java_2017_04
-First homework
+Задания по онлайн-курсу "Разработчик Java", otus.ru
+
+Автор: Светлана Пивторацкая (Svetlana Pivtoratskaya).
