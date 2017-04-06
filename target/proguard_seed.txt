@@ -1,2 +1,0 @@
-otus.First
-otus.First: void main(java.lang.String[])
