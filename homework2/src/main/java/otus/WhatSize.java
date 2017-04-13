@@ -6,29 +6,28 @@ import java.util.function.Supplier;
  */
 class WhatSize
 {
-    private int numberOfRepeats = 10;
-    private int countOfObjects = 1000;
-
-
-    private long getMemory() throws InterruptedException
+    private static long getMemory() throws InterruptedException
     {
         System.gc();
-        Thread.sleep(50);
+        Thread.sleep(200);
         System.runFinalization();
-        Thread.sleep(50);
+        Thread.sleep(200);
+        System.gc();
         long totalMemory = Runtime.getRuntime().totalMemory();
 
         System.gc();
-        Thread.sleep(50);
+        Thread.sleep(200);
         System.runFinalization();
-        Thread.sleep(50);
+        Thread.sleep(200);
+        System.gc();
         long freeMemory = Runtime.getRuntime().freeMemory();
 
 
         return  totalMemory - freeMemory;
     }
 
-    public void findSize(Supplier<Object> input, String nameOfCollection)
+    public static void sizeOf(Supplier<Object> input, String nameOfCollection,
+                                int numberOfRepeats, int countOfObjects)
             throws InterruptedException
     {
         long AverageSize = 0L;
@@ -45,13 +44,18 @@ class WhatSize
             {
                 objects[j] = input.get();
             }
+
             endMemory = getMemory();
+
+            //Using of object to the compiler can't
+            objects[0] = null;
 
             AverageSize += Math.round(1f * (endMemory - startMemory) / countOfObjects);
         }
 
-        System.out.println("Size of the " + nameOfCollection + ": <"
-                + Long.toString(AverageSize / countOfObjects) + ">");
+        AverageSize /= numberOfRepeats;
+        System.out.println("Size of " + nameOfCollection + ": <"
+                + Long.toString(AverageSize) + ">");
     }
 
 }
