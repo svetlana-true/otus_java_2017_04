@@ -3,35 +3,30 @@ package otus;
  * Created by svetlana on 4/11/17.
  */
 
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Supplier;
-import otus.SetString;
-import otus.WhatSizeString;
 
 
-public class MemoryAccess {
+public class MemoryAccess
+{
 
     public static void main(String[] args) throws Exception
     {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Set count of repeats: ");
-        Integer counts = Integer.parseInt(in.nextLine());
+        Supplier<Object> emptyString = () -> new String();
+        Supplier<Object> emptyArray = () -> new ArrayList();
+        Supplier<Object> emptyHashSet = () -> new HashSet();
+        Supplier<Object> emptyTreeSet = () -> new TreeSet();
+        Supplier<Object> emptyHashMap = () -> new HashMap();
+        Supplier<Object> emptyTreeMap = () -> new TreeMap();
 
-        WhatSizeString whatSizeString = new WhatSizeString(counts);
-        whatSizeString.getRepeats();
+        WhatSize whatSize = new WhatSize();
+        whatSize.findSize(emptyString, "String");
+        whatSize.findSize(emptyArray, "ArrayList");
+        whatSize.findSize(emptyHashSet, "HashSet");
+        whatSize.findSize(emptyTreeSet, "TreeSet");
+        whatSize.findSize(emptyHashMap, "HashMap");
+        whatSize.findSize(emptyTreeMap, "TreeMap");
 
-        Supplier<String> string1 = () -> new String();
-        System.out.println("String1: <" + string1.get() + ">");
-        whatSizeString.findSize(string1.get());
-
-        Supplier<SetString> setString = ()->{
-            System.out.println("Set string: ");
-            String name = in.nextLine();
-            return new SetString(name);
-        };
-        SetString string2 = setString.get();
-        System.out.println("String2: <" + string2.getName() + ">");
-        whatSizeString.findSize(string2.getName());
 
     }
 }
