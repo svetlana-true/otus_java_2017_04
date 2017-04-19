@@ -9,14 +9,10 @@ import java.util.*;
 public class OwnArrayList<T> implements List<T>
 {
 
-    private static final int DEFAULT = 10;
     private static final int MAX_SIZE = Integer.MAX_VALUE - 8;
     private int sizeOfData;
 
-    private static final Object[] EMPTY_DATA = {};
     private transient Object[] objectData;
-
-    protected transient int modCount = 0;
 
     public OwnArrayList(int initialCapacity) {
         super();
@@ -58,11 +54,6 @@ public class OwnArrayList<T> implements List<T>
     }
 
     private void setNecessarySize(int minSize) {
-        if (objectData == EMPTY_DATA) {
-            minSize = Math.max(DEFAULT, minSize);
-        }
-
-        modCount++;
         if (minSize - objectData.length > 0)
         {
             int oldSize = objectData.length;
@@ -191,7 +182,6 @@ public class OwnArrayList<T> implements List<T>
         if (index < 0 || index >= this.sizeOfData)
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + sizeOfData);
 
-        modCount++;
         T oldValue = objectData(index);
 
         int numMoved = sizeOfData - index - 1;
@@ -248,7 +238,6 @@ public class OwnArrayList<T> implements List<T>
     private class Itr implements Iterator<T> {
         int cursor;
         int lastRet = -1;
-        int expectedModCount = modCount;
 
         public boolean hasNext() {
             return cursor != sizeOfData;
@@ -256,7 +245,6 @@ public class OwnArrayList<T> implements List<T>
 
         @SuppressWarnings("unchecked")
         public T next() {
-            checkForComodification();
             int i = cursor;
             if (i >= sizeOfData)
                 throw new NoSuchElementException();
@@ -270,21 +258,14 @@ public class OwnArrayList<T> implements List<T>
         public void remove() {
             if (lastRet < 0)
                 throw new IllegalStateException();
-            checkForComodification();
 
             try {
                 OwnArrayList.this.remove(lastRet);
                 cursor = lastRet;
                 lastRet = -1;
-                expectedModCount = modCount;
             } catch (IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
-        }
-
-        final void checkForComodification() {
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
         }
     }
 
@@ -308,7 +289,6 @@ public class OwnArrayList<T> implements List<T>
 
         @SuppressWarnings("unchecked")
         public T previous() {
-            checkForComodification();
             int i = cursor - 1;
             if (i < 0)
                 throw new NoSuchElementException();
@@ -322,7 +302,6 @@ public class OwnArrayList<T> implements List<T>
         public void set(T e) {
             if (lastRet < 0)
                 throw new IllegalStateException();
-            checkForComodification();
 
             try {
                 OwnArrayList.this.set(lastRet, e);
@@ -332,14 +311,11 @@ public class OwnArrayList<T> implements List<T>
         }
 
         public void add(T e) {
-            checkForComodification();
-
             try {
                 int i = cursor;
                 OwnArrayList.this.add(i, e);
                 cursor = i + 1;
                 lastRet = -1;
-                expectedModCount = modCount;
             } catch (IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
