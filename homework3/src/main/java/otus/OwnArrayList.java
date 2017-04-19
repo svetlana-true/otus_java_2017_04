@@ -8,7 +8,6 @@ import java.util.*;
  */
 public class OwnArrayList<T> implements List<T>
 {
-
     private static final int MAX_SIZE = Integer.MAX_VALUE - 8;
     private int sizeOfData;
 
@@ -221,90 +220,75 @@ public class OwnArrayList<T> implements List<T>
 
     @Override
     public ListIterator<T> listIterator() {
-        return new ListItr(0);
+        return new OwnListIterator(0);
     }
 
     @Override
     public ListIterator<T> listIterator(int index) {
         if (index < 0 || index > sizeOfData)
             throw new IndexOutOfBoundsException("Index: "+index);
-        return new ListItr(index);
+        return new OwnListIterator(index);
     }
 
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
         return null;
     }
-    private class Itr implements Iterator<T> {
-        int cursor;
-        int lastRet = -1;
 
-        public boolean hasNext() {
-            return cursor != sizeOfData;
+    private class OwnListIterator implements ListIterator<T>
+    {
+        int index;
+        int last = -1;
+
+        OwnListIterator(int curIndex) {
+            super();
+            index = curIndex;
         }
 
-        @SuppressWarnings("unchecked")
+        public boolean hasPrevious() {
+            return index != 0;
+        }
+
+        public boolean hasNext() {
+            return index != sizeOfData;
+        }
+
+        public int nextIndex() {
+            return index;
+        }
+
+        public int previousIndex() {
+            return index - 1;
+        }
+
         public T next() {
-            int i = cursor;
+            int i = index;
             if (i >= sizeOfData)
                 throw new NoSuchElementException();
             Object[] objectData = OwnArrayList.this.objectData;
             if (i >= objectData.length)
                 throw new ConcurrentModificationException();
-            cursor = i + 1;
-            return (T) objectData[lastRet = i];
+            index = i + 1;
+            return (T) objectData[last = i];
         }
 
-        public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-
-            try {
-                OwnArrayList.this.remove(lastRet);
-                cursor = lastRet;
-                lastRet = -1;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException();
-            }
-        }
-    }
-
-    private class ListItr extends Itr implements ListIterator<T> {
-        ListItr(int index) {
-            super();
-            cursor = index;
-        }
-
-        public boolean hasPrevious() {
-            return cursor != 0;
-        }
-
-        public int nextIndex() {
-            return cursor;
-        }
-
-        public int previousIndex() {
-            return cursor - 1;
-        }
-
-        @SuppressWarnings("unchecked")
         public T previous() {
-            int i = cursor - 1;
+            int i = index - 1;
             if (i < 0)
                 throw new NoSuchElementException();
             Object[] objectData = OwnArrayList.this.objectData;
             if (i >= objectData.length)
                 throw new ConcurrentModificationException();
-            cursor = i;
-            return (T) objectData[lastRet = i];
+            index = i;
+            return (T) objectData[last = i];
         }
 
         public void set(T e) {
-            if (lastRet < 0)
+            if (last < 0)
                 throw new IllegalStateException();
 
             try {
-                OwnArrayList.this.set(lastRet, e);
+                OwnArrayList.this.set(last, e);
             } catch (IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
@@ -312,10 +296,23 @@ public class OwnArrayList<T> implements List<T>
 
         public void add(T e) {
             try {
-                int i = cursor;
+                int i = index;
                 OwnArrayList.this.add(i, e);
-                cursor = i + 1;
-                lastRet = -1;
+                index = i + 1;
+                last = -1;
+            } catch (IndexOutOfBoundsException ex) {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        public void remove() {
+            if (last < 0)
+                throw new IllegalStateException();
+
+            try {
+                OwnArrayList.this.remove(last);
+                index = last;
+                last = -1;
             } catch (IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
