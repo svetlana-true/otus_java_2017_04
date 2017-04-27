@@ -52,6 +52,10 @@ public class TestArrayList
         sort(ownArrayListInt);
         System.out.println("Testing of \"sort\": sort for own ArrayList: " + Arrays.toString(ownArrayListInt.toArray()));
 
+        int a = 4;
+        int b = a >> 1;
+        //System.out.print(b);
+        System.out.println("b = " + Integer.toString(b));
 
     }
 }

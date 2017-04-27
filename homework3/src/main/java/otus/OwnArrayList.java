@@ -70,8 +70,8 @@ public class OwnArrayList<T> implements List<T>
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return null;
+    public ListIterator<T> iterator() {
+        return new OwnListIterator(0);
     }
 
     @Override
