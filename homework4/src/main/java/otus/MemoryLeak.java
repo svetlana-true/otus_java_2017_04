@@ -34,13 +34,13 @@ public class MemoryLeak {
         memoryAnalytics.startGCMonitor();
 
 
-        System.out.println("Set a count of the elements in full arrays: ");
+        System.out.println("Set a count of the elements in full arrays (better about 5000000): ");
         int size = Integer.parseInt(in.nextLine());
 
         Object[] array = new Object[size];
         System.out.println("Array of size: " + array.length + " created");
 
-
+        int period = 1 + size/10000;
         int n = 0;
         int currentSize = size;
         System.out.println("Starting the loop");
@@ -54,6 +54,7 @@ public class MemoryLeak {
 
                 currentSize = size;
                 array = new Object[currentSize];
+                Thread.sleep(period);
 
             }
         }
