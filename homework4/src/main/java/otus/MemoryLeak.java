@@ -29,7 +29,7 @@ public class MemoryLeak {
         SimpleFormatter formatter = new SimpleFormatter();
         fh.setFormatter(formatter);
 
-        MemoryAnalytics memoryAnalytics = new MemoryAnalytics();
+        MemoryAnalytics memoryAnalytics = MemoryAnalytics.getInstance();
         memoryAnalytics.pSetLogger(fh);
         memoryAnalytics.startGCMonitor();
 

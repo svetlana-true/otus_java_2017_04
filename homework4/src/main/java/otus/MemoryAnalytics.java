@@ -18,16 +18,16 @@ import java.util.logging.Logger;
  */
 
 public class MemoryAnalytics {
-    private static final int NORM_NAME_LENGTH = 25;
-    private static final long SIZE_KB = 1024;
-    private static final long SIZE_MB = SIZE_KB * 1024;
-    private static final long SIZE_GB = SIZE_MB * 1024;
-    private static final String SPACES = "                    ";
-    private static Map<String, Region> memRegions;
+    private final int NORM_NAME_LENGTH = 25;
+    private final long SIZE_KB = 1024;
+    private final long SIZE_MB = SIZE_KB * 1024;
+    private final long SIZE_GB = SIZE_MB * 1024;
+    private final String SPACES = "                    ";
+    private Map<String, Region> memRegions;
 
-    private static Logger logger = Logger.getLogger("MyLog");
+    private Logger logger = Logger.getLogger("MyLog");
 
-    private static class Region {
+    private class Region {
         private boolean heap;
         private String normName;
         public Region(String name, boolean heap) {
@@ -42,15 +42,22 @@ public class MemoryAnalytics {
         }
     }
 
-    static {
+    private MemoryAnalytics (){
         memRegions = new HashMap<String, Region>(ManagementFactory.getMemoryPoolMXBeans().size());
         for(MemoryPoolMXBean mBean: ManagementFactory.getMemoryPoolMXBeans()) {
             memRegions.put(mBean.getName(), new Region(mBean.getName(), mBean.getType() == MemoryType.HEAP));
         }
-
     }
 
-    private static NotificationListener gcHandler = new NotificationListener() {
+    private static class MemoryAnalyticsHolder{
+        private final static MemoryAnalytics instance = new MemoryAnalytics();
+    }
+
+    public static MemoryAnalytics getInstance() {
+        return MemoryAnalyticsHolder.instance;
+    }
+
+    private NotificationListener gcHandler = new NotificationListener() {
         @Override
         public void handleNotification(Notification notification, Object handback) {
             if (notification.getType().equals(GarbageCollectionNotificationInfo.GARBAGE_COLLECTION_NOTIFICATION)) {
@@ -72,13 +79,12 @@ public class MemoryAnalytics {
         }
     };
 
-    public static void pSetLogger(FileHandler fHeader) {
+    public void pSetLogger(FileHandler fHeader) {
         // set file fo recording of the log
         logger.addHandler(fHeader);
     }
 
-
-    public static void printUsage(boolean heapOnly) {
+    public void printUsage(boolean heapOnly) {
         for(MemoryPoolMXBean mBean: ManagementFactory.getMemoryPoolMXBeans()) {
             if (!heapOnly || mBean.getType() == MemoryType.HEAP) {
                 printMemUsage(mBean.getName(), mBean.getUsage());
@@ -86,13 +92,13 @@ public class MemoryAnalytics {
         }
     }
 
-    public static void startGCMonitor() {
+    public void startGCMonitor() {
         for(GarbageCollectorMXBean mBean: ManagementFactory.getGarbageCollectorMXBeans()) {
             ((NotificationEmitter) mBean).addNotificationListener(gcHandler, null, null);
         }
     }
 
-    public static void stopGCMonitor() {
+    public void stopGCMonitor() {
         for(GarbageCollectorMXBean mBean: ManagementFactory.getGarbageCollectorMXBeans()) {
             try {
                 ((NotificationEmitter) mBean).removeNotificationListener(gcHandler);
@@ -101,7 +107,7 @@ public class MemoryAnalytics {
         }
     }
 
-    private static void printMemUsage(String title, MemoryUsage usage) {
+    private void printMemUsage(String title, MemoryUsage usage) {
         System.out.println(String.format("%s%s\t%.1f%%\t[%s]",
                 memRegions.get(title).getNormName(),
                 formatMemory(usage.getUsed()),
@@ -114,7 +120,7 @@ public class MemoryAnalytics {
                 formatMemory(usage.getMax())));
     }
 
-    private static String formatMemory(long bytes) {
+    private String formatMemory(long bytes) {
         if (bytes > SIZE_GB) {
             return String.format("%.2fG", bytes / (double)SIZE_GB);
         } else if (bytes > SIZE_MB) {
@@ -125,7 +131,7 @@ public class MemoryAnalytics {
         return Long.toString(bytes);
     }
 
-    private static void appendMemUsage(StringBuilder sb, Map<String, MemoryUsage> memUsage) {
+    private void appendMemUsage(StringBuilder sb, Map<String, MemoryUsage> memUsage) {
         for(Map.Entry<String, MemoryUsage> entry: memUsage.entrySet()) {
             if (memRegions.get(entry.getKey()).isHeap()) {
                 sb.append(entry.getKey()).append(" used=")
