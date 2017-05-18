@@ -47,7 +47,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>otus.MemoryLeak</mainClass>
+                            <mainClass>otus.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -66,7 +66,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>otus.MemoryLeak</mainClass>
+                            <mainClass>otus.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

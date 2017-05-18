@@ -13,21 +13,21 @@ public class Main {
             System.exit(0);
         }
 
-        MyOwnFrameworkClass myTestFramework = new MyOwnFrameworkClass();
+        MyOwnFrameworkClass myOwnFrameworkClass = new MyOwnFrameworkClass();
 
         switch (args[0])
         {
             case "classes":
                 for (int i = 1; i < args.length; ++i)
                 {
-                    myTestFramework.addClass(args[i]);
+                    myOwnFrameworkClass.addClass(args[i]);
                 }
                 break;
 
             case "packages":
                 for (int i = 1; i < args.length; ++i)
                 {
-                    myTestFramework.addPackage(args[i]);
+                    myOwnFrameworkClass.addPackage(args[i]);
                 }
                 break;
 
@@ -36,6 +36,6 @@ public class Main {
                 System.exit(0);
         }
 
-        MyOwnFrameworkClass.run();
+        myOwnFrameworkClass.run();
     }
 }
