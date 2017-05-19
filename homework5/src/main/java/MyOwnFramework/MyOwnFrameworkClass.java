@@ -30,7 +30,7 @@ public class MyOwnFrameworkClass {
         classLoadersList.add(ClasspathHelper.staticClassLoader());
 
         Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .setScanners(new SubTypesScanner(false /* don't exclude Object.class */), new ResourcesScanner())
+                .setScanners(new SubTypesScanner(false), new ResourcesScanner())
                 .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(packageName))));
 
@@ -39,7 +39,7 @@ public class MyOwnFrameworkClass {
         for (Class<?> clazz : classes)
         {
             try {
-                if (!isTestClass(clazz))
+                if (!testClassCheck(clazz))
                 {
                     continue;
                 }
@@ -52,29 +52,7 @@ public class MyOwnFrameworkClass {
         return addedClassCounter;
     }
 
-    public void addClass(String className) throws Exception {
-        if(className != null && !className.isEmpty())
-            testCases.add(new AccessToAnnotation(className));
-    }
-
-    public void addClass(Class<?> clazz) throws Exception {
-        if(clazz != null)
-            testCases.add(new AccessToAnnotation(clazz));
-    }
-
-    public void run() throws Exception {
-        if (testCases.isEmpty())
-        {
-            System.out.println("Tests not found");
-            return;
-        }
-
-        for (AccessToAnnotation testCase : testCases){
-            new TestRunning(testCase).run();
-        }
-    }
-
-    private boolean isTestClass(Class<?> clazz)
+    private boolean testClassCheck(Class<?> clazz)
     {
         try {
             for (Method method : clazz.getMethods())
@@ -88,5 +66,31 @@ public class MyOwnFrameworkClass {
             return false;
         }
         return false;
+    }
+
+    public void addClass(String className) throws Exception {
+        if (className != null && !className.isEmpty())
+        {
+            testCases.add(new AccessToAnnotation(className));
+        }
+    }
+
+    public void addClass(Class<?> clazz) throws Exception {
+        if(clazz != null)
+        {
+            testCases.add(new AccessToAnnotation(clazz));
+        }
+    }
+
+    public void run() throws Exception {
+        if (testCases.isEmpty())
+        {
+            System.out.println("Tests isn't found.");
+            return;
+        }
+
+        for (AccessToAnnotation testCase : testCases){
+            new TestRunning(testCase).run();
+        }
     }
 }

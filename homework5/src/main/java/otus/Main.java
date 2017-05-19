@@ -7,11 +7,6 @@ import MyOwnFramework.MyOwnFrameworkClass;
  */
 public class Main {
     public void main(String[] args) throws Exception {
-        if (args.length < 2)
-        {
-            System.out.println("Wrong arguments of command line");
-            System.exit(0);
-        }
 
         MyOwnFrameworkClass myOwnFrameworkClass = new MyOwnFrameworkClass();
 
@@ -32,7 +27,7 @@ public class Main {
                 break;
 
             default:
-                System.out.println("Wrong arguments of command line");
+                System.out.println("Enter the line with format \"classes name_of_class\" or \"packages name_of_package\"");
                 System.exit(0);
         }
 

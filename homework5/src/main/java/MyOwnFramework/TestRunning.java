@@ -11,49 +11,55 @@ public class TestRunning {
     private AccessToAnnotation testCase = null;
 
     public TestRunning(AccessToAnnotation testCase) throws Exception {
-        if (testCase != null) {
+        if (testCase != null)
+        {
             this.testCase = testCase;
         }
-        else {
-            throw new Exception("Test case failed");
+        else
+        {
+            throw new Exception("Testcase was failed.");
         }
     }
 
     public void run() throws Exception {
-        try {
+        try
+        {
             for (Method testMethod : testCase.getTestMethods()) {
                 Object instance = createInstance();
+                runAfter(instance, testCase.getAfterMethod());
                 runBefore(instance, testCase.getBeforeMethod());
                 runTest(instance, testMethod);
-                runAfter(instance, testCase.getAfterMethod());
             }
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Exception exception = new Exception("");
             exception.initCause(e);
             throw  exception;
         }
-
     }
 
     public Object createInstance() throws IllegalAccessException, InstantiationException {
         return testCase.getTestClass().newInstance();
     }
 
-    private void runBefore(Object obj, Method beforeMethod) throws InvocationTargetException, IllegalAccessException {
-        if (beforeMethod != null) {
-            beforeMethod.invoke(obj);
-        }
-    }
-
     private void runAfter(Object obj, Method afterMethod) throws InvocationTargetException, IllegalAccessException {
-        if (afterMethod != null) {
+        if (afterMethod != null)
+        {
             afterMethod.invoke(obj);
         }
     }
 
+    private void runBefore(Object obj, Method beforeMethod) throws InvocationTargetException, IllegalAccessException {
+        if (beforeMethod != null)
+        {
+            beforeMethod.invoke(obj);
+        }
+    }
+
     private void runTest(Object obj, Method testMethod) throws InvocationTargetException, IllegalAccessException {
-        if (testMethod != null) {
+        if (testMethod != null)
+        {
             testMethod.invoke(obj);
         }
     }
