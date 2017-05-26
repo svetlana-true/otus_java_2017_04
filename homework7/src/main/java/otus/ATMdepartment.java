@@ -43,10 +43,24 @@ public class ATMdepartment {
 
     void setAllInitialAmount()
     {
+        System.out.println("Set all initial amounts");
+
         for (ATMmachine atm : atmMachineArrayList)
         {
             atm.setInitalAmount();
         }
+    }
+
+    void printCurrentAmount()
+    {
+        System.out.println("-------All current amounts-------");
+
+        for (ATMmachine atm : atmMachineArrayList)
+        {
+            atm.printCurrentAmount();
+        }
+        System.out.println("---------------------------------");
+
     }
 
     List<Integer[]> TakeOfMoney(int numberATM, int takeOfMoney)
