@@ -14,7 +14,7 @@ public class ATMmachine {
     private Memento undo;
 
     private class Memento {
-        private int[] initialAmounts;
+        int[] initialAmounts = new int[4];
 
         Memento()
         {
