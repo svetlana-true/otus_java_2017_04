@@ -1,75 +1,26 @@
 package otus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Светлана on 26.05.2017.
+ * Created by svetlana on 5/30/17.
  */
-public class ATMdepartment {
-    private ArrayList<ATMmachine> atmMachineArrayList = new ArrayList();
+public interface ATMdepartment {
+    void addATM(String nameATM, int [] valuesATM, int [] amountATM);
 
-    public void addATM(String nameATM, int [] amountATM)
-    {
-        atmMachineArrayList.add(new ATMmachine(nameATM, amountATM));
-    }
-    private static class ATMdepartmentHolder{
-        private final static ATMdepartment instance = new ATMdepartment();
-    }
+    void printAllAmount(int numberATM);
 
-    public static ATMdepartment getInstance() {
-        return ATMdepartmentHolder.instance;
-    }
+    void getAllAmount(int numberATM);
 
-    void printAllAmount(int numberATM)
-    {
-        atmMachineArrayList.get(numberATM).printAllAmount();
-    }
+    void printCurrentAmount(int numberATM);
 
-    void getAllAmount(int numberATM)
-    {
-        atmMachineArrayList.get(numberATM).getAllAmount();
-    }
+    void setInitalAmount(int numberATM);
 
-    void printCurrentAmount(int numberATM)
-    {
-        atmMachineArrayList.get(numberATM).printCurrentAmount();
-    }
+    void setAllInitialAmount();
 
-    void setInitalAmount(int numberATM)
-    {
-        atmMachineArrayList.get(numberATM).setInitalAmount();
-    }
+    void printCurrentAmount();
 
-    void setAllInitialAmount()
-    {
-        System.out.println("Set all initial amounts");
+    List<Integer[]> TakeOfMoney(int numberATM, int takeOfMoney);
 
-        for (ATMmachine atm : atmMachineArrayList)
-        {
-            atm.setInitalAmount();
-        }
-    }
-
-    void printCurrentAmount()
-    {
-        System.out.println("-------All current amounts-------");
-
-        for (ATMmachine atm : atmMachineArrayList)
-        {
-            atm.printCurrentAmount();
-        }
-        System.out.println("---------------------------------");
-
-    }
-
-    List<Integer[]> TakeOfMoney(int numberATM, int takeOfMoney)
-    {
-       return atmMachineArrayList.get(numberATM).TakeOfMoney(takeOfMoney);
-    }
-
-    void chooseVariationTakeOfMoney(int numberATM, int variation)
-    {
-        atmMachineArrayList.get(numberATM).chooseVariationTakeOfMoney(variation);
-    }
+    void chooseVariationTakeOfMoney(int numberATM, int variation);
 }
