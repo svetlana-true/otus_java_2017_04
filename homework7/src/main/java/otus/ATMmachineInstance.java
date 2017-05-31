@@ -8,34 +8,40 @@ import java.util.List;
  */
 public class ATMmachineInstance implements ATMmachine{
     private String nameATM = new String();
-    private int[] values;
-    private int[] amounts;
+    private ArrayList<Cell> cells = new ArrayList();
     private List<Integer[]> resultsTakeOf = new ArrayList<>();
     private Memento undo;
 
     private class Memento {
         int[] initialAmounts;
+//        private Cell[] cells;
 
-        Memento()
+        Memento(int[] amm)
         {
-            initialAmounts = new int [amounts.length];
-            arrayCopy(amounts, initialAmounts);
+            initialAmounts = new int [amm.length];
+            arrayCopy(amm, initialAmounts);
         }
 
         void setAmount()
         {
-            arrayCopy(initialAmounts, amounts);
+            int i = 0;
+            for (Cell cl: cells)
+            {
+                cl.setAmount(initialAmounts[i]);
+                i++;
+            }
         }
     }
 
     ATMmachineInstance(String name, int[] val, int[] amm)
     {
         nameATM = name;
-        values = new int [val.length];
-        amounts = new int [amm.length];
-        arrayCopy(val, values);
-        arrayCopy(amm, amounts);
-        undo = new Memento();
+        for (int i = 0; i < val.length; i++)
+        {
+            cells.add(new Cell(val[i], amm[i]));
+        }
+
+        undo = new Memento(amm);
     }
 
     private void arrayCopy(int [] first, int [] second)
@@ -48,9 +54,9 @@ public class ATMmachineInstance implements ATMmachine{
     {
         System.out.println(nameATM + ":");
 
-        for (int i = 0; i< amounts.length; i++)
+        for(Cell cl : cells)
         {
-            System.out.println(" value " + values[i] + "; ammount " + amounts[i]);
+            System.out.println(" value " + cl.getValue() + "; ammount " + cl.getAmount());
         }
     }
 
@@ -58,9 +64,9 @@ public class ATMmachineInstance implements ATMmachine{
     public int getAllAmount()
     {
         int result = 0;
-        for (int i = 0; i< amounts.length; i++)
+        for(Cell cl : cells)
         {
-            result += amounts[i] * values[i];
+            result += cl.getValue() * cl.getAmount();
         }
 
         return result;
@@ -81,7 +87,7 @@ public class ATMmachineInstance implements ATMmachine{
     @Override
     public List<Integer[]> TakeOfMoney (int takeOfMoney)
     {
-        return TakeOfMoney (takeOfMoney, new int[amounts.length], 0);
+        return TakeOfMoney (takeOfMoney, new int[cells.size()], 0);
     }
 
     private List<Integer[]> TakeOfMoney (int takeOfMoney, int[] variation, int position)
@@ -92,9 +98,9 @@ public class ATMmachineInstance implements ATMmachine{
 
         if (value < takeOfMoney){
 
-            for (int i = position; i < values.length; i++) {
+            for (int i = position; i < cells.size(); i++) {
 
-                if (amounts[i] > variation[i])
+                if (cells.get(i).getAmount() > variation[i])
                 {
                     int[] newvariation = variation.clone();
                     newvariation[i]++;
@@ -115,7 +121,7 @@ public class ATMmachineInstance implements ATMmachine{
     private int compute(int[] variation){
         int res = 0;
         for (int i = 0; i < variation.length; i++) {
-            res += values[i] * variation[i];
+            res += cells.get(i).getValue() * variation[i];
         }
         return res;
     }
@@ -134,7 +140,7 @@ public class ATMmachineInstance implements ATMmachine{
         Integer[] var = resultsTakeOf.get(variation - 1);
 
         for (int i = 0; i < var.length; i++) {
-            amounts[i] -= var[i];
+            cells.get(i).setAmount( cells.get(i).getAmount()- var[i] );
         }
     }
 }

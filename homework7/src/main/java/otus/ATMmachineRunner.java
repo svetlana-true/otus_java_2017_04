@@ -19,11 +19,11 @@ public class ATMmachineRunner {
         atmDepartment.addATM( "ATM 2", new int[]{100,500,1000,5000}, new int[]{10,50,100,50});
 
         Scanner in = new Scanner(System.in);
-        Integer numberATM = -1;
-        while ((numberATM < 0) || (numberATM > 2))
+        Integer indexATM = -1;
+        while ((indexATM < 0) || (indexATM > 2))
         {
-            System.out.println("Set number of a ATM (between 0 and 2):");
-            numberATM = Integer.parseInt(in.nextLine());
+            System.out.println("Set an index of ATM (between 0 and 2):");
+            indexATM = Integer.parseInt(in.nextLine());
         }
 
         Integer takeOfMoney = 1;
@@ -34,26 +34,32 @@ public class ATMmachineRunner {
             takeOfMoney = Integer.parseInt(in.nextLine());
         }
 
-        atmDepartment.printAllAmount(numberATM);
-        atmDepartment.printCurrentAmount(numberATM);
+        atmDepartment.printAllAmount(indexATM);
+        atmDepartment.printCurrentAmount(indexATM);
 
-        List<Integer[]> results = atmDepartment.TakeOfMoney(numberATM, takeOfMoney);
+        List<Integer[]> results = atmDepartment.TakeOfMoney(indexATM, takeOfMoney);
         for (Integer[] result : results){
             System.out.println("Variations: " + Arrays.toString(result));
+        }
+
+        if (results.size() == 0)
+        {
+            System.out.println("ATM hasn't the needed amount of money. Sorry.");
+            System.exit(0);
         }
 
         Integer sizeOfFull = 0;
         while ((sizeOfFull < 1) || (sizeOfFull > results.size()))
         {
-            System.out.println("Set number of a needed variation (between 1 and " + results.size() + "): ");
+            System.out.println("Set index of a needed variation (between 1 and " + results.size() + "): ");
             sizeOfFull = Integer.parseInt(in.nextLine());
         }
 
-        atmDepartment.chooseVariationTakeOfMoney(numberATM, sizeOfFull.intValue());
+        atmDepartment.chooseVariationTakeOfMoney(indexATM, sizeOfFull.intValue());
 
-        atmDepartment.printAllAmount(numberATM);
-        atmDepartment.printCurrentAmount(numberATM);
-        atmDepartment.setInitalAmount(numberATM);
+        atmDepartment.printAllAmount(indexATM);
+        atmDepartment.printCurrentAmount(indexATM);
+        atmDepartment.setInitalAmount(indexATM);
 
         atmDepartment.setAllInitialAmount();
         atmDepartment.printCurrentAmount();

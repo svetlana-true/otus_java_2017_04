@@ -8,12 +8,11 @@ import java.util.List;
  */
 public class ATMdepartmentInstance implements ATMdepartment{
     private ArrayList<ATMmachine> atmMachineArrayList = new ArrayList();
-    private int [] values;
 
     @Override
-    public void addATM(String nameATM, int [] valuesATM, int [] amountATM)
+    public void addATM(String nameATM, int [] valuesBacknots, int [] amountBacknots)
     {
-        atmMachineArrayList.add(new ATMmachineInstance(nameATM, valuesATM, amountATM));
+        atmMachineArrayList.add(new ATMmachineInstance(nameATM, valuesBacknots, amountBacknots));
     }
     private static class ATMdepartmentHolder{
         private final static ATMdepartmentInstance instance = new ATMdepartmentInstance();
@@ -24,27 +23,27 @@ public class ATMdepartmentInstance implements ATMdepartment{
     }
 
     @Override
-    public void printAllAmount(int numberATM)
+    public void printAllAmount(int indexATM)
     {
-        atmMachineArrayList.get(numberATM).printAllAmount();
+        atmMachineArrayList.get(indexATM).printAllAmount();
     }
 
     @Override
-    public void getAllAmount(int numberATM)
+    public void getAllAmount(int indexATM)
     {
-        atmMachineArrayList.get(numberATM).getAllAmount();
+        atmMachineArrayList.get(indexATM).getAllAmount();
     }
 
     @Override
-    public void printCurrentAmount(int numberATM)
+    public void printCurrentAmount(int indexATM)
     {
-        atmMachineArrayList.get(numberATM).printCurrentAmount();
+        atmMachineArrayList.get(indexATM).printCurrentAmount();
     }
 
     @Override
-    public void setInitalAmount(int numberATM)
+    public void setInitalAmount(int indexATM)
     {
-        atmMachineArrayList.get(numberATM).setInitalAmount();
+        atmMachineArrayList.get(indexATM).setInitalAmount();
     }
 
     @Override
@@ -72,14 +71,14 @@ public class ATMdepartmentInstance implements ATMdepartment{
     }
 
     @Override
-    public List<Integer[]> TakeOfMoney(int numberATM, int takeOfMoney)
+    public List<Integer[]> TakeOfMoney(int indexATM, int takeOfMoney)
     {
-       return atmMachineArrayList.get(numberATM).TakeOfMoney(takeOfMoney);
+       return atmMachineArrayList.get(indexATM).TakeOfMoney(takeOfMoney);
     }
 
     @Override
-    public void chooseVariationTakeOfMoney(int numberATM, int variation)
+    public void chooseVariationTakeOfMoney(int indexATM, int variation)
     {
-        atmMachineArrayList.get(numberATM).chooseVariationTakeOfMoney(variation);
+        atmMachineArrayList.get(indexATM).chooseVariationTakeOfMoney(variation);
     }
 }
