@@ -1,2 +1,2 @@
 mvn clean package;
-java -jar target/homework9-1.0-SNAPSHOT.jar
+java -jar target/homework8-1.0-SNAPSHOT.jar
