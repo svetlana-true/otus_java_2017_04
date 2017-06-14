@@ -1,5 +1,3 @@
-package otus;
-
 import java.util.Arrays;
 
 /**
