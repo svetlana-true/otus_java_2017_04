@@ -26,17 +26,17 @@ public class JSONTest {
 
     @Test
     public void charsTest() throws InstantiationException, IllegalAccessException {
-        Assert.assertEquals("char serialized", "\"a\"", jsObject.toJSON('a'));
+        Assert.assertEquals("char serialized", "a", jsObject.toJSON('a'));
     }
 
     @Test
     public void stringsTest() throws InstantiationException, IllegalAccessException {
-        Assert.assertEquals("java.lang.String Serialized", "\"One string\"", jsObject.toJSON("One string"));
+        Assert.assertEquals("java.lang.String Serialized", "One string", jsObject.toJSON("One string"));
     }
 
     @Test
     public void simpleArraysTest() throws InstantiationException, IllegalAccessException {
-        Assert.assertEquals("int[] serialized ", "[1,2,3,4,5]", jsObject.toJSON(new int[] {1, 2, 3, 4, 5}));
+        Assert.assertEquals("int[] serialized ", "[\"1\",\"2\",\"3\",\"4\",\"5\"]", jsObject.toJSON(new int[] {1, 2, 3, 4, 5}));
         Assert.assertEquals("String[] serialized", "[\"one\",\"two\",\"three\",\"four\",\"five\"]", jsObject.toJSON(new String[] {"one", "two", "three", "four", "five"}));
     }
 
