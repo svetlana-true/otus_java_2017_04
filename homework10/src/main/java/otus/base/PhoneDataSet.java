@@ -1,19 +1,23 @@
 package otus.base;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by Светлана on 02.07.2017.
  */
 @Entity
 @Table(name = "phones")
-public class PhoneDataSet {
+public class PhoneDataSet extends DataSet{
     @Column(name = "code")
     private int code;
     @Column(name = "number")
     private String number;
+
+   // @ManyToOne(fetch = FetchType.EAGER, targetEntity = UserDataSet.class)
+    @ManyToOne
+  //  @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "userdataset_id")//, nullable = false)
+    private UserDataSet userdataset;
 
     public PhoneDataSet() {
     }
@@ -29,6 +33,7 @@ public class PhoneDataSet {
     @Override
     public String toString() {
         return "PhoneDataSet{" +
+                "code='" + Integer.toString(code) + '\'' +
                 "number='" + number + '\'' +
                 '}';
     }

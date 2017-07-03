@@ -8,37 +8,40 @@ import java.util.List;
  */
 @Entity
 @Table(name = "MyDB")
-public class UserDataSet {
-    @Id
-    @Column(name = "id", length = 20)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class UserDataSet extends DataSet{
+
     @Column(name = "name", length = 255)
     private String name;
     @Column(name = "age", length = 3)
     private int age;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private AddressDataSet address;
 
-    @OneToMany
-    @JoinTable(name = "phones",
+    //@OneToMany(fetch = FetchType.EAGER, mappedBy = "MyDB")
+    //@OneToMany(targetEntity=PhoneDataSet.class, mappedBy = "dataSet", cascade = CascadeType.ALL,
+    //        fetch = FetchType.LAZY, orphanRemoval = true)
+   // @Fetch(value = FetchMode.SELECT)
+    /*@JoinTable(name = "phones",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "id")}
-    )
+    )*/
+
+    @OneToMany(mappedBy = "userdataset")
     private List<PhoneDataSet> phones;
 
     //Important for Hibernate
     public UserDataSet() {
     }
     public UserDataSet(long id, String name, int age) {
-        this.id = id;
+        this.setId(id);
         this.name = name;
         this.age = age;
     }
     //constructor for new dataSets without id
     public UserDataSet(String name, int age) {
-        this.id = -1;
+        this.setId(-1);
         this.name = name;
         this.age = age;
     }

@@ -9,14 +9,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "addresses")
-public class AddressDataSet{
+public class AddressDataSet extends DataSet{
+    @Column(name = "street")
     private String street;
+    @Column(name = "index")
     private int index;
-
-    @Column(name = "code")
-    private int code;
-    @Column(name = "number")
-    private String number;
 
     public AddressDataSet() {
     }
@@ -33,6 +30,7 @@ public class AddressDataSet{
     public String toString() {
         return "AddressDataSet{" +
                 "street='" + street + '\'' +
+                "index='" + Integer.toString(index) + '\'' +
                 '}';
     }
 }

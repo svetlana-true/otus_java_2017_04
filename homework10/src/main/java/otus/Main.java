@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Here is my DBService. ");
 
-        /*DBService dbService = new DBServiceImpl();
+        DBService dbService = new DBServiceImpl();
 
         String status = dbService.getLocalStatus();
         System.out.println("Status: " + status);
@@ -34,6 +34,6 @@ public class Main {
             System.out.println(userDataSet);
         }
 
-        dbService.shutdown();*/
+        dbService.shutdown();
     }
 }

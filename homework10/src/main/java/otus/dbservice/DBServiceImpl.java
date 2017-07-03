@@ -22,6 +22,8 @@ public class DBServiceImpl implements DBService {
     private final SessionFactory sessionFactory;
 
     public DBServiceImpl() {
+        System.out.println("Here is my DBServiceImpl. ");
+
         Configuration configuration = new Configuration();
 
         configuration.addAnnotatedClass(UserDataSet.class);
@@ -29,9 +31,9 @@ public class DBServiceImpl implements DBService {
 
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/db_example");
-        configuration.setProperty("hibernate.connection.username", "user");
-        configuration.setProperty("hibernate.connection.password", "1234");
+        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+        configuration.setProperty("hibernate.connection.username", "root");
+        configuration.setProperty("hibernate.connection.password", "");
         configuration.setProperty("hibernate.show_sql", "true");
         configuration.setProperty("hibernate.hbm2ddl.auto", "create");
         configuration.setProperty("hibernate.connection.useSSL", "false");
@@ -39,7 +41,6 @@ public class DBServiceImpl implements DBService {
 
         sessionFactory = createSessionFactory(configuration);
     }
-
     public String getLocalStatus() {
         return runInSession(session -> {
             return session.getTransaction().getStatus().name();
