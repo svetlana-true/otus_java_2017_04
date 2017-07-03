@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>otus</groupId>
-    <artifactId>homework9</artifactId>
+    <artifactId>homework10</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -24,6 +24,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>6.0.6</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.2.10.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -33,7 +38,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>otus.ORM</mainClass>
+                            <mainClass>otus.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -52,7 +57,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>otus.ORM</mainClass>
+                            <mainClass>otus.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
