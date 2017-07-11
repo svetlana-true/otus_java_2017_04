@@ -3,13 +3,16 @@ package otus.dbservice;
 /**
  * Created by Светлана on 02.07.2017.
  */
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import otus.base.AddressDataSet;
 import otus.base.DBService;
+import otus.base.PhoneDataSet;
 import otus.base.UserDataSet;
 
 import java.util.List;
@@ -27,7 +30,8 @@ public class DBServiceImpl implements DBService {
         Configuration configuration = new Configuration();
 
         configuration.addAnnotatedClass(UserDataSet.class);
-        //configuration.addAnnotatedClass(PhoneDataSet.class);
+        configuration.addAnnotatedClass(PhoneDataSet.class);
+        configuration.addAnnotatedClass(AddressDataSet.class);
 
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");

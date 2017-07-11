@@ -12,25 +12,27 @@ import javax.persistence.Table;
 public class AddressDataSet extends DataSet{
     @Column(name = "street")
     private String street;
-    @Column(name = "index")
-    private int index;
+    @Column(name = "zipcode")
+    private String zipcode;
 
     public AddressDataSet() {
     }
 
     public AddressDataSet(String street) {
         this.street = street;
+        this.zipcode = "000000";
     }
 
-    public String getStreet() {
-        return street;
+    public AddressDataSet(String street, String zipcode) {
+        this.street = street;
+        this.zipcode = zipcode;
     }
 
     @Override
     public String toString() {
         return "AddressDataSet{" +
-                "street='" + street + '\'' +
-                "index='" + Integer.toString(index) + '\'' +
+                "street='" + this.street + '\'' +
+                "index='" + this.zipcode + '\'' +
                 '}';
     }
 }

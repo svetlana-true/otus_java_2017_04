@@ -1,6 +1,8 @@
 package otus.base;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,17 +21,12 @@ public class UserDataSet extends DataSet{
     @PrimaryKeyJoinColumn
     private AddressDataSet address;
 
-    //@OneToMany(fetch = FetchType.EAGER, mappedBy = "MyDB")
-    //@OneToMany(targetEntity=PhoneDataSet.class, mappedBy = "dataSet", cascade = CascadeType.ALL,
-    //        fetch = FetchType.LAZY, orphanRemoval = true)
-   // @Fetch(value = FetchMode.SELECT)
-    /*@JoinTable(name = "phones",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "id")}
-    )*/
-
-    @OneToMany(mappedBy = "userdataset")
-    private List<PhoneDataSet> phones;
+    @OneToMany(
+            mappedBy = "userdataset",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<PhoneDataSet> phones = new ArrayList<>();
 
     //Important for Hibernate
     public UserDataSet() {
@@ -44,5 +41,27 @@ public class UserDataSet extends DataSet{
         this.setId(-1);
         this.name = name;
         this.age = age;
+    }
+
+    public UserDataSet(long id, String name, AddressDataSet address, PhoneDataSet... phones) {
+        this.setId(id);
+        this.name = name;
+        this.address = address;
+        List<PhoneDataSet> userPhones = Arrays.asList(phones);
+        this.phones.addAll(userPhones);
+        userPhones.forEach(phone -> phone.setUser(this));
+    }
+    public UserDataSet(String name, AddressDataSet address, PhoneDataSet... phones) {
+        this(-1, name, address, phones);
+    }
+
+    @Override
+    public String toString() {
+        return "UserDataSet{" +
+                "id='" + getId() + '\'' +
+                "name='" + name + '\'' +
+                ", address=" + address +
+                ", phones=" + phones +
+                '}';
     }
 }

@@ -4,7 +4,9 @@ package otus;
  * Created by Светлана on 02.07.2017.
  */
 
+import otus.base.AddressDataSet;
 import otus.base.DBService;
+import otus.base.PhoneDataSet;
 import otus.base.UserDataSet;
 import otus.dbservice.DBServiceImpl;
 
@@ -20,8 +22,16 @@ public class Main {
         String status = dbService.getLocalStatus();
         System.out.println("Status: " + status);
 
-        dbService.save(new UserDataSet("user1", 12));
-        dbService.save(new UserDataSet("user2", 21));
+        UserDataSet user1 = new UserDataSet(
+                "user1",
+                new AddressDataSet("33, Boulevard Lannes, Paris", "75116"),
+                new PhoneDataSet("0145041423"),
+                new PhoneDataSet("0145043038"));
+
+        System.out.println(user1);
+
+        dbService.save(user1);
+        dbService.save(new UserDataSet("user2", new AddressDataSet("845, Third Avenue, New York", "10022"), new PhoneDataSet("+18554003575")));
 
         UserDataSet dataSet = dbService.read(1);
         System.out.println(dataSet);
